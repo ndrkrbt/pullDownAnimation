@@ -84,7 +84,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7I5-9Q-v8J">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
+                                <rect key="frame" x="0.0" y="100" width="414" height="300"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img1" translatesAutoresizingMaskIntoConstraints="NO" id="FPf-e9-FKb">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="300"/>
@@ -102,7 +102,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="7I5-9Q-v8J" firstAttribute="top" secondItem="QGs-Ds-SMU" secondAttribute="top" id="4ql-j2-tba"/>
+                            <constraint firstItem="7I5-9Q-v8J" firstAttribute="top" secondItem="QGs-Ds-SMU" secondAttribute="top" constant="100" id="4ql-j2-tba"/>
                             <constraint firstItem="7I5-9Q-v8J" firstAttribute="leading" secondItem="GTn-yx-Dq7" secondAttribute="leading" id="SvM-Yx-0Zy"/>
                             <constraint firstItem="7I5-9Q-v8J" firstAttribute="trailing" secondItem="GTn-yx-Dq7" secondAttribute="trailing" id="owH-Ut-ZQf"/>
                         </constraints>

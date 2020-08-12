@@ -46,6 +46,8 @@ fileprivate extension UIViewController {
         guard var current = self as? PullDownAnimatable & TransitioningDelegateble else {
             return
         }
+        
+        let screenHeight: CGFloat = UIScreen.main.bounds.height
         let gestureLocation = gesture.location(in: view)
         
         if gesture.state == .began {
@@ -56,15 +58,9 @@ fileprivate extension UIViewController {
             dismiss(animated: true)
         } else if gesture.state == .changed {
             current.lastGestureLocation = gestureLocation
-            
-            print("current.lastGestureLocation.y \(current.lastGestureLocation.y)")
-            print("gesture \(gesture.view!.frame.origin.y)")
-            
-            let modifiedGestureLocation = abs(current.lastGestureLocation.y + gesture.view!.frame.origin.y)
-            
-            print("modifiedGestureLocation \(modifiedGestureLocation)")
-            current.percent = ((modifiedGestureLocation - current.startGestureLocation.y) / UIScreen.main.bounds.height)/(1 - current.animatedMovingView.frame.maxY / UIScreen.main.bounds.height)
-            print(current.percent)
+            let changebleViewHeight = screenHeight - self.view.frame.origin.y
+            let modifiedPercent = (self.view.frame.origin.y + current.lastGestureLocation.y - current.startGestureLocation.y)/screenHeight
+            current.percent = modifiedPercent/(1 - changebleViewHeight/screenHeight)
             current.interactionController?.update(current.percent)
         } else if gesture.state == .ended {
             if current.percent > 0.5 && gesture.verticalDirection(target: view) == .stop {
@@ -132,7 +128,7 @@ class PullDownAnimationController: NSObject, UIViewControllerAnimatedTransitioni
              //let toVC = transitionContext.viewController(forKey: .to) as? ViewController,
              guard let navVC = transitionContext.viewController(forKey: .to) as? UINavigationController,
                 let toVC = navVC.viewControllers.last as? ViewController,
-                let movingView = (toVC.presentedViewController as? PullDownAnimatable)?.animatedMovingView else {
+                let movingView = (toVC as? PullUpAnimatable)?.animatedMovingView else {
                     return
             }
                     
@@ -141,7 +137,7 @@ class PullDownAnimationController: NSObject, UIViewControllerAnimatedTransitioni
             
             UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: .curveLinear, animations: {
                 
-                let coef = 1 - movingView.frame.size.height / UIScreen.main.bounds.height
+                let coef = movingView.frame.origin.y / UIScreen.main.bounds.height
                 frame.origin.y = frame.size.height*coef
                 fromView.frame = frame
             }, completion: { finished in
