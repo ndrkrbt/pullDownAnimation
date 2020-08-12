@@ -9,13 +9,75 @@
 import Foundation
 import UIKit
 
-protocol PullDownAnimatable: class {
-    var animatedMovingView: UIView { get set }
+
+protocol PullUpAnimatable {
+    var animatedMovingView: UIView { get }
+    var secondVC: UIViewController & TransitioningDelegateble { get }
+    var interactionController: UIPercentDrivenInteractiveTransition? {get set}
+    var lastGestureLocation: CGPoint {get set}
+    var startGestureLocation: CGPoint {get set}
+    var percent: CGFloat {get set}
 }
 
-extension PullDownAnimatable where Self: UIViewController {
+extension PullUpAnimatable {
     
 }
+
+
+
+extension PullUpAnimatable where Self: UIViewController {
+    func configurePan() {
+        let panDown = UIPanGestureRecognizer(target: self, action: #selector(handleGesture(_:)))
+        animatedMovingView.addGestureRecognizer(panDown)
+    }
+}
+
+extension PullUpAnimatable where Self: UIGestureRecognizerDelegate {
+      func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+          if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+              return pan.verticalDirection(target: pan.view!) == .up
+          }
+          return false
+      }
+  }
+
+fileprivate extension UIViewController {
+    
+    @objc func handleGesture(_ gesture: UIPanGestureRecognizer) {
+        print("swipe")
+        
+        guard var current = self as? PullUpAnimatable else {
+            return
+        }
+        let gestureLocation = gesture.location(in: view)
+        
+        if gesture.state == .began {
+            current.interactionController = UIPercentDrivenInteractiveTransition()
+            current.lastGestureLocation = gestureLocation
+            current.startGestureLocation = gestureLocation
+            current.secondVC.customTransitionDelegate.interactionController = current.interactionController
+            present(current.secondVC, animated: true)
+        } else if gesture.state == .changed {
+            current.lastGestureLocation = gestureLocation
+            let deltaGesture = (current.startGestureLocation.y - current.lastGestureLocation.y) / UIScreen.main.bounds.height
+            let coefficient = current.animatedMovingView.frame.origin.y / UIScreen.main.bounds.height
+            current.percent = deltaGesture/coefficient
+            print(current.percent)
+            current.interactionController?.update(current.percent)
+        } else if gesture.state == .ended || gesture.state == .cancelled {
+            if gesture.verticalDirection(target: view) == .up {
+                current.interactionController?.finish()
+            } else if gesture.verticalDirection(target: view) == .stop && current.percent > 0.5 {
+                current.interactionController?.finish()
+            } else {
+                current.interactionController?.cancel()
+            }
+            current.percent = 0
+            current.interactionController = nil
+        }
+    }
+}
+
 
 class PullDownAnimationController: NSObject, UIViewControllerAnimatedTransitioning {
     
@@ -48,7 +110,7 @@ class PullDownAnimationController: NSObject, UIViewControllerAnimatedTransitioni
             guard let navVC = transitionContext.viewController(forKey: .from) as? UINavigationController,
                 let toVC = navVC.viewControllers.last as? ViewController,
             //{let toVC = transitionContext.viewController(forKey: .from) as? ViewController,
-                let movingView = (toVC as? PullDownAnimatable)?.animatedMovingView else {
+                let movingView = (toVC as? PullUpAnimatable)?.animatedMovingView else {
                     return
             }
             
@@ -89,3 +151,19 @@ class PullDownAnimationController: NSObject, UIViewControllerAnimatedTransitioni
         return 0.5
     }
 }
+
+
+@objc protocol PullDownAnimatable {
+    var animatedMovingView: UIView { get set }
+    
+   // @objc optional func handleGesture(_ gesture: UIPanGestureRecognizer)
+    
+    var secondVC: UIViewController { get }
+}
+
+extension PullDownAnimatable {
+   
+    
+}
+
+

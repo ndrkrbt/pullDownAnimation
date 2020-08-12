@@ -8,21 +8,40 @@
 
 import UIKit
 
-class ViewController: PullUpViewController {
+class ViewController: UIViewController {
     
     class func instantiate() -> ViewController {
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        let secondVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
-        viewController.secondVC = secondVC
+        let second = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
+        viewController.second = second
         return viewController
     }
     
+    var second: (UIViewController & TransitioningDelegateble)!
+    var interactionController: UIPercentDrivenInteractiveTransition?
+    var lastGestureLocation: CGPoint = .zero
+    var startGestureLocation: CGPoint = .zero
+    var percent: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        super.animatedMovingView = mainView
-        super.secondVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
+        configurePan()
+        second = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
     }
     
     @IBOutlet weak var mainView: UIView!
 }
+
+extension ViewController : PullUpAnimatable {
+
+    var secondVC: UIViewController & TransitioningDelegateble {
+        return second
+    }
+    
+    
+    var animatedMovingView: UIView {
+        return mainView
+    }
+}
+
+

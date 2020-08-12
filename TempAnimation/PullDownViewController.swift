@@ -10,6 +10,7 @@ import UIKit
 
 class PullDownViewController: UIViewController, PullDownAnimatable, TransitioningDelegateble {
    
+    var secondVC: UIViewController
     var animatedMovingView: UIView
     
     override func viewDidLoad() {
@@ -26,6 +27,7 @@ class PullDownViewController: UIViewController, PullDownAnimatable, Transitionin
        
     required init?(coder aDecoder: NSCoder) {
         self.animatedMovingView = UIView()
+        self.secondVC = UIViewController()
         super.init(coder: aDecoder)
         modalPresentationStyle = .custom
         transitioningDelegate = customTransitionDelegate
