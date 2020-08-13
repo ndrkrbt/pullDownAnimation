@@ -15,7 +15,7 @@ class SecondViewController: UIViewController, TransitioningDelegateble {
         transitioningDelegate = customTransitionDelegate
     }
     
-    var transitionData = PullDownTransitionData()
+    var transitionData = PullDownTransitionData(isPercentDriven: true)
     var customTransitionDelegate = TransitioningDelegate()
     
     @IBOutlet weak var movingView: UIView!

@@ -24,13 +24,13 @@ extension PullUpAnimatable where Self: UIViewController {
 }
 
 extension PullUpAnimatable where Self: UIGestureRecognizerDelegate {
-      func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-          if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
-              return panGestureRecognizer.verticalDirection(target: panGestureRecognizer.view!) == .up
-          }
-          return false
-      }
-  }
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            return panGestureRecognizer.verticalDirection(target: panGestureRecognizer.view!) == .up
+        }
+        return false
+    }
+}
 
 fileprivate extension UIViewController {
     
@@ -48,6 +48,9 @@ fileprivate extension UIViewController {
             vc.showingVC.customTransitionDelegate.interactionController = vc.transitionData.interactionController
             present(vc.showingVC, animated: true)
         } else if gesture.state == .changed {
+            guard vc.transitionData.isPercentDriven else {
+                return
+            }
             vc.transitionData.lastGestureLocation = gestureLocation
             let deltaGesture = (vc.transitionData.startGestureLocation.y - vc.transitionData.lastGestureLocation.y) / UIScreen.main.bounds.height
             let coefficient = vc.animatedMovingView.frame.origin.y / UIScreen.main.bounds.height

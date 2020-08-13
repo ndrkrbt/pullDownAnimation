@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     }
     
     var second: UIViewControllerWithTransition = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
-    var transitionData = PullDownTransitionData()
+    var transitionData = PullDownTransitionData(isPercentDriven: false)
     
     @IBOutlet weak var mainView: UIView!
     

@@ -19,12 +19,14 @@ struct PullDownTransitionData {
     var lastGestureLocation: CGPoint
     var startGestureLocation: CGPoint
     var percent: CGFloat
+    var isPercentDriven: Bool
     
-    init() {
+    init(isPercentDriven: Bool) {
         self.interactionController = nil
         self.lastGestureLocation = .zero
         self.startGestureLocation = .zero
         self.percent = 0
+        self.isPercentDriven = isPercentDriven
     }
 }
 
@@ -61,6 +63,9 @@ fileprivate extension UIViewController {
             vc.customTransitionDelegate.interactionController = vc.transitionData.interactionController
             dismiss(animated: true)
         } else if gesture.state == .changed {
+            guard vc.transitionData.isPercentDriven else {
+                return
+            }
             vc.transitionData.lastGestureLocation = gestureLocation
             let changebleViewHeight = screenHeight - self.view.frame.origin.y
             let modifiedPercent = (self.view.frame.origin.y + vc.transitionData.lastGestureLocation.y - vc.transitionData.startGestureLocation.y)/screenHeight
