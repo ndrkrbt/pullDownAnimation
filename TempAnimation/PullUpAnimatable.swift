@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 protocol PullUpAnimatable {
     var animatedMovingView: UIView { get }
     var secondVC: UIViewController & TransitioningDelegateble { get }
@@ -68,4 +67,13 @@ fileprivate extension UIViewController {
             current.interactionController = nil
         }
     }
+}
+
+
+protocol TransitioningDelegateble: class {
+    var customTransitionDelegate: TransitioningDelegate { get }
+}
+
+extension TransitioningDelegateble where Self: UIViewController {
+    
 }

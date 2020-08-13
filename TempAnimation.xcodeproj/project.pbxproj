@@ -11,9 +11,9 @@
 		4E20D14924E2B60E00BB8B80 /* TransitioningDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D14824E2B60E00BB8B80 /* TransitioningDelegate.swift */; };
 		4E20D14B24E2B63200BB8B80 /* PresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D14A24E2B63200BB8B80 /* PresentationController.swift */; };
 		4E20D14D24E2B6EF00BB8B80 /* PullDownAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D14C24E2B6EF00BB8B80 /* PullDownAnimationController.swift */; };
-		4E20D15524E32E8B00BB8B80 /* PullUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D15424E32E8B00BB8B80 /* PullUpViewController.swift */; };
-		4E20D15724E3345C00BB8B80 /* PullDownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D15624E3345C00BB8B80 /* PullDownViewController.swift */; };
+		4E20D15524E32E8B00BB8B80 /* PullUpAnimatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E20D15424E32E8B00BB8B80 /* PullUpAnimatable.swift */; };
 		4E21CCB824E3CD9F0095D573 /* UIGesture+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E21CCB724E3CD9F0095D573 /* UIGesture+Extension.swift */; };
+		4E2A604A24E4A8B500F53063 /* PullDownAnimatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A604924E4A8B500F53063 /* PullDownAnimatable.swift */; };
 		4E3FBB0624DD6FE400BD9AD3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3FBB0524DD6FE400BD9AD3 /* AppDelegate.swift */; };
 		4E3FBB0A24DD6FE400BD9AD3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3FBB0924DD6FE400BD9AD3 /* ViewController.swift */; };
 		4E3FBB0D24DD6FE400BD9AD3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4E3FBB0B24DD6FE400BD9AD3 /* Main.storyboard */; };
@@ -28,9 +28,9 @@
 		4E20D14824E2B60E00BB8B80 /* TransitioningDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitioningDelegate.swift; sourceTree = "<group>"; };
 		4E20D14A24E2B63200BB8B80 /* PresentationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationController.swift; sourceTree = "<group>"; };
 		4E20D14C24E2B6EF00BB8B80 /* PullDownAnimationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownAnimationController.swift; sourceTree = "<group>"; };
-		4E20D15424E32E8B00BB8B80 /* PullUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullUpViewController.swift; sourceTree = "<group>"; };
-		4E20D15624E3345C00BB8B80 /* PullDownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownViewController.swift; sourceTree = "<group>"; };
+		4E20D15424E32E8B00BB8B80 /* PullUpAnimatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullUpAnimatable.swift; sourceTree = "<group>"; };
 		4E21CCB724E3CD9F0095D573 /* UIGesture+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIGesture+Extension.swift"; sourceTree = "<group>"; };
+		4E2A604924E4A8B500F53063 /* PullDownAnimatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullDownAnimatable.swift; sourceTree = "<group>"; };
 		4E3FBB0224DD6FE400BD9AD3 /* TempAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TempAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4E3FBB0524DD6FE400BD9AD3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4E3FBB0924DD6FE400BD9AD3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,8 +84,8 @@
 				4E20D14824E2B60E00BB8B80 /* TransitioningDelegate.swift */,
 				4E20D14A24E2B63200BB8B80 /* PresentationController.swift */,
 				4E20D14C24E2B6EF00BB8B80 /* PullDownAnimationController.swift */,
-				4E20D15424E32E8B00BB8B80 /* PullUpViewController.swift */,
-				4E20D15624E3345C00BB8B80 /* PullDownViewController.swift */,
+				4E20D15424E32E8B00BB8B80 /* PullUpAnimatable.swift */,
+				4E2A604924E4A8B500F53063 /* PullDownAnimatable.swift */,
 				4E21CCB724E3CD9F0095D573 /* UIGesture+Extension.swift */,
 			);
 			path = TempAnimation;
@@ -166,9 +166,9 @@
 				4E3FBB0A24DD6FE400BD9AD3 /* ViewController.swift in Sources */,
 				4E190EA724E3BF57008FC47E /* StartViewController.swift in Sources */,
 				4E3FBB2324DDB47900BD9AD3 /* SceneDelegate.swift in Sources */,
-				4E20D15524E32E8B00BB8B80 /* PullUpViewController.swift in Sources */,
-				4E20D15724E3345C00BB8B80 /* PullDownViewController.swift in Sources */,
+				4E20D15524E32E8B00BB8B80 /* PullUpAnimatable.swift in Sources */,
 				4E20D14924E2B60E00BB8B80 /* TransitioningDelegate.swift in Sources */,
+				4E2A604A24E4A8B500F53063 /* PullDownAnimatable.swift in Sources */,
 				4E20D14D24E2B6EF00BB8B80 /* PullDownAnimationController.swift in Sources */,
 				4E3FBB1A24DD747800BD9AD3 /* SecondViewController.swift in Sources */,
 				4E3FBB0624DD6FE400BD9AD3 /* AppDelegate.swift in Sources */,
