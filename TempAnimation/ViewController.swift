@@ -24,12 +24,12 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurePan()
+        configurePullUpPanGestureRecognizer()
     }
 }
 
 extension ViewController : PullUpAnimatable {
-    var showingVC: UIViewController & TransitioningDelegateble {
+    var showingVC: UIViewControllerWithTransition {
         return second
     }
     

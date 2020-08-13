@@ -17,7 +17,7 @@ protocol PullUpAnimatable {
 }
 
 extension PullUpAnimatable where Self: UIViewController {
-    func configurePan() {
+    func configurePullUpPanGestureRecognizer() {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullUpGesture(_:)))
         animatedMovingView.addGestureRecognizer(panGestureRecognizer)
     }

@@ -29,7 +29,7 @@ struct PullDownTransitionData {
 }
 
 extension PullDownAnimatable where Self: UIViewController {
-    func configurePan() {
+    func configurePullDownPanGestureRecognizer() {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullDownGesture(_:)))
         animatedMovingView.addGestureRecognizer(panGestureRecognizer)
     }
