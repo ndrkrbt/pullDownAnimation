@@ -18,13 +18,13 @@ class ViewController: UIViewController {
     }
     
     var second: UIViewControllerWithTransition = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
-    var transitionData = PullDownTransitionData(isPercentDriven: false)
+    var transitionData = PullDownTransitionData(isPercentDriven: true)
     
     @IBOutlet weak var mainView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurePullUpPanGestureRecognizer()
+        configureRecognizers()
     }
 }
 

@@ -17,9 +17,20 @@ protocol PullUpAnimatable {
 }
 
 extension PullUpAnimatable where Self: UIViewController {
+    
+    func configureRecognizers(){
+        configurePullUpPanGestureRecognizer()
+        configurePullUpTapGestureRecognizer()
+    }
+    
     func configurePullUpPanGestureRecognizer() {
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullUpGesture(_:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullUpPanGesture(_:)))
         animatedMovingView.addGestureRecognizer(panGestureRecognizer)
+    }
+    
+    func configurePullUpTapGestureRecognizer(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handlePullUpTapGesture(_:)))
+        animatedMovingView.addGestureRecognizer(tapGestureRecognizer)
     }
 }
 
@@ -34,7 +45,17 @@ extension PullUpAnimatable where Self: UIGestureRecognizerDelegate {
 
 fileprivate extension UIViewController {
     
-    @objc func handlePullUpGesture(_ gesture: UIPanGestureRecognizer) {
+    @objc func handlePullUpTapGesture(_ gesture: UITapGestureRecognizer) {
+        guard var vc = self as? PullUpAnimatable else {
+            return
+        }
+        vc.transitionData.interactionController = UIPercentDrivenInteractiveTransition()
+        vc.showingVC.customTransitionDelegate.interactionController = vc.transitionData.interactionController
+        present(vc.showingVC, animated: true)
+        vc.transitionData.interactionController?.finish()
+    }
+    
+    @objc func handlePullUpPanGesture(_ gesture: UIPanGestureRecognizer) {
         
         guard var vc = self as? PullUpAnimatable else {
             return

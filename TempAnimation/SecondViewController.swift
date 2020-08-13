@@ -22,7 +22,7 @@ class SecondViewController: UIViewController, TransitioningDelegateble {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configurePullDownPanGestureRecognizer()
+        configureRecognizers()
     }
 }
 

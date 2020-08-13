@@ -31,9 +31,19 @@ struct PullDownTransitionData {
 }
 
 extension PullDownAnimatable where Self: UIViewController {
+  func configureRecognizers(){
+        configurePullDownPanGestureRecognizer()
+        configurePullDownTapGestureRecognizer()
+    }
+    
     func configurePullDownPanGestureRecognizer() {
-        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullDownGesture(_:)))
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullDownPanGesture))
         animatedMovingView.addGestureRecognizer(panGestureRecognizer)
+    }
+    
+    func configurePullDownTapGestureRecognizer(){
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handlePullDownTapGesture))
+        animatedMovingView.addGestureRecognizer(tapGestureRecognizer)
     }
 }
 
@@ -48,7 +58,17 @@ extension PullDownAnimatable where Self: UIGestureRecognizerDelegate {
 
 fileprivate extension UIViewController {
     
-    @objc func handlePullDownGesture(_ gesture: UIPanGestureRecognizer) {
+    @objc func handlePullDownTapGesture(_ gesture: UITapGestureRecognizer) {
+        guard var vc = self as? PullDownAnimatable & TransitioningDelegateble else {
+            return
+        }
+        vc.transitionData.interactionController = UIPercentDrivenInteractiveTransition()
+        vc.customTransitionDelegate.interactionController = vc.transitionData.interactionController
+        dismiss(animated: true)
+        vc.transitionData.interactionController?.finish()
+    }
+    
+    @objc func handlePullDownPanGesture(_ gesture: UIPanGestureRecognizer) {
         guard var vc = self as? PullDownAnimatable & TransitioningDelegateble else {
             return
         }
