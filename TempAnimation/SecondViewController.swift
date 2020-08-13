@@ -9,21 +9,20 @@
 import UIKit
 
 class SecondViewController: UIViewController, TransitioningDelegateble {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        modalPresentationStyle = .custom
+        transitioningDelegate = customTransitionDelegate
+    }
+    
+    var transitionData = PullDownTransitionData()
+    var customTransitionDelegate = TransitioningDelegate()
     
     @IBOutlet weak var movingView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-         configurePan()
-    }
-
-    var transitionData = PullDownTransitionData()
-    var customTransitionDelegate = TransitioningDelegate()
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        modalPresentationStyle = .custom
-        transitioningDelegate = customTransitionDelegate
+        configurePan()
     }
 }
 

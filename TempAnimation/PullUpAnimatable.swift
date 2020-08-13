@@ -71,7 +71,3 @@ fileprivate extension UIViewController {
 protocol TransitioningDelegateble: class {
     var customTransitionDelegate: TransitioningDelegate { get }
 }
-
-extension TransitioningDelegateble where Self: UIViewController {
-    
-}

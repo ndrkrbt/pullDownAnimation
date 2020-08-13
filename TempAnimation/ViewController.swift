@@ -17,16 +17,15 @@ class ViewController: UIViewController {
         return viewController
     }
     
-    var second: (UIViewController & TransitioningDelegateble)!
+    var second: UIViewControllerWithTransition = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
     var transitionData = PullDownTransitionData()
+    
+    @IBOutlet weak var mainView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configurePan()
-        second = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SecondViewController") as! SecondViewController
     }
-    
-    @IBOutlet weak var mainView: UIView!
 }
 
 extension ViewController : PullUpAnimatable {
