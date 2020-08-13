@@ -8,26 +8,25 @@
 
 import UIKit
 
+typealias UIViewControllerWithTransition = UIViewController & TransitioningDelegateble
+
 protocol PullUpAnimatable {
     var animatedMovingView: UIView { get }
-    var secondVC: UIViewController & TransitioningDelegateble { get }
-    var interactionController: UIPercentDrivenInteractiveTransition? {get set}
-    var lastGestureLocation: CGPoint {get set}
-    var startGestureLocation: CGPoint {get set}
-    var percent: CGFloat { get set }
+    var showingVC: UIViewControllerWithTransition { get }
+    var transitionData: PullDownTransitionData { get set }
 }
 
 extension PullUpAnimatable where Self: UIViewController {
     func configurePan() {
-        let panDown = UIPanGestureRecognizer(target: self, action: #selector(handlePullUpGesture(_:)))
-        animatedMovingView.addGestureRecognizer(panDown)
+        let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(handlePullUpGesture(_:)))
+        animatedMovingView.addGestureRecognizer(panGestureRecognizer)
     }
 }
 
 extension PullUpAnimatable where Self: UIGestureRecognizerDelegate {
       func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-          if let pan = gestureRecognizer as? UIPanGestureRecognizer {
-              return pan.verticalDirection(target: pan.view!) == .up
+          if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+              return panGestureRecognizer.verticalDirection(target: panGestureRecognizer.view!) == .up
           }
           return false
       }
@@ -37,34 +36,33 @@ fileprivate extension UIViewController {
     
     @objc func handlePullUpGesture(_ gesture: UIPanGestureRecognizer) {
         
-        guard var current = self as? PullUpAnimatable else {
+        guard var vc = self as? PullUpAnimatable else {
             return
         }
         let gestureLocation = gesture.location(in: view)
         
         if gesture.state == .began {
-            current.interactionController = UIPercentDrivenInteractiveTransition()
-            current.lastGestureLocation = gestureLocation
-            current.startGestureLocation = gestureLocation
-            current.secondVC.customTransitionDelegate.interactionController = current.interactionController
-            present(current.secondVC, animated: true)
+            vc.transitionData.interactionController = UIPercentDrivenInteractiveTransition()
+            vc.transitionData.lastGestureLocation = gestureLocation
+            vc.transitionData.startGestureLocation = gestureLocation
+            vc.showingVC.customTransitionDelegate.interactionController = vc.transitionData.interactionController
+            present(vc.showingVC, animated: true)
         } else if gesture.state == .changed {
-            current.lastGestureLocation = gestureLocation
-            let deltaGesture = (current.startGestureLocation.y - current.lastGestureLocation.y) / UIScreen.main.bounds.height
-            let coefficient = current.animatedMovingView.frame.origin.y / UIScreen.main.bounds.height
-            current.percent = deltaGesture/coefficient
-            print(current.percent)
-            current.interactionController?.update(current.percent)
+            vc.transitionData.lastGestureLocation = gestureLocation
+            let deltaGesture = (vc.transitionData.startGestureLocation.y - vc.transitionData.lastGestureLocation.y) / UIScreen.main.bounds.height
+            let coefficient = vc.animatedMovingView.frame.origin.y / UIScreen.main.bounds.height
+            vc.transitionData.percent = deltaGesture/coefficient
+            vc.transitionData.interactionController?.update(vc.transitionData.percent)
         } else if gesture.state == .ended || gesture.state == .cancelled {
             if gesture.verticalDirection(target: view) == .up {
-                current.interactionController?.finish()
-            } else if gesture.verticalDirection(target: view) == .stop && current.percent > 0.5 {
-                current.interactionController?.finish()
+                vc.transitionData.interactionController?.finish()
+            } else if gesture.verticalDirection(target: view) == .stop && vc.transitionData.percent > 0.5 {
+                vc.transitionData.interactionController?.finish()
             } else {
-                current.interactionController?.cancel()
+                vc.transitionData.interactionController?.cancel()
             }
-            current.percent = 0
-            current.interactionController = nil
+            vc.transitionData.percent = 0
+            vc.transitionData.interactionController = nil
         }
     }
 }

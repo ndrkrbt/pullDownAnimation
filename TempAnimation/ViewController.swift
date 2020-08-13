@@ -18,10 +18,7 @@ class ViewController: UIViewController {
     }
     
     var second: (UIViewController & TransitioningDelegateble)!
-    var interactionController: UIPercentDrivenInteractiveTransition?
-    var lastGestureLocation: CGPoint = .zero
-    var startGestureLocation: CGPoint = .zero
-    var percent: CGFloat = 0
+    var transitionData = PullDownTransitionData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +30,9 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : PullUpAnimatable {
-
-    var secondVC: UIViewController & TransitioningDelegateble {
+    var showingVC: UIViewController & TransitioningDelegateble {
         return second
     }
-    
     
     var animatedMovingView: UIView {
         return mainView

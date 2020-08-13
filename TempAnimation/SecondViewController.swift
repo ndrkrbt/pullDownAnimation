@@ -16,10 +16,8 @@ class SecondViewController: UIViewController, TransitioningDelegateble {
         super.viewDidLoad()
          configurePan()
     }
-    
-    var lastGestureLocation: CGPoint = .zero
-    var startGestureLocation: CGPoint = .zero
-    var percent: CGFloat = 0
+
+    var transitionData = PullDownTransitionData()
     var customTransitionDelegate = TransitioningDelegate()
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,8 +25,6 @@ class SecondViewController: UIViewController, TransitioningDelegateble {
         modalPresentationStyle = .custom
         transitioningDelegate = customTransitionDelegate
     }
-    
-    var interactionController: UIPercentDrivenInteractiveTransition?
 }
 
 extension SecondViewController: PullDownAnimatable {
